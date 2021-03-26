@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import HomeStackScreen from './components/HomeStackScreen';
+import SettingsStackScreen from './components/SettingsStackScreen';
+import ChartStackScreen from './components/ChartStackScreen';
+import MessagesStackScreen from './components/MessageStackScreen';
+
+const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeStackScreen}
+          options={{ tabBarLabel: 'Home' }}
+        />
+        <Tab.Screen
+          name="Chart"
+          component={ChartStackScreen}
+          options={{ tabBarLabel: 'Chart' }}
+        />
+        <Tab.Screen
+          name="Messages"
+          component={MessagesStackScreen}
+          options={{ tabBarLabel: 'Messages' }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsStackScreen}
+          options={{ tabBarLabel: 'Settings' }}
+        />
+
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
