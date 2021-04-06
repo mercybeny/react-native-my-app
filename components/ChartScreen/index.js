@@ -1,14 +1,12 @@
-import React from 'react';
-import { View, Text, Dimensions, StyleSheet, ScrollView, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {
     LineChart,
-    BarChart,
     PieChart,
-    ProgressChart,
-    ContributionGraph,
     StackedBarChart
 } from "react-native-chart-kit";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -62,7 +60,22 @@ const dataBarChart = {
     barColors: ["#FF9933", "lightgray", "#0066CC"]
 };
 
+
+
 const ChartScreen = () => {
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        alert("" + date);
+    };
     return (
         <ScrollView>
             <View style={[styles.container, {
@@ -72,11 +85,16 @@ const ChartScreen = () => {
                 <View style={{ flex: 1, backgroundColor: "white" }}>
                     <View style={{ flexDirection: 'row', alignItems: "center", padding: 10, borderBottomColor: 'lightgray', borderBottomWidth: 1 }}>
                         <Icon
+                            onPress={showDatePicker}
                             name="camera"
                             color="black"
-                            onPress={() => {
-                                alert("Developing!!!");
-                            }}
+
+                        />
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
                         />
                         <Text style={{ flex: 1, marginLeft: 10 }}>DateAndTime</Text>
                     </View>

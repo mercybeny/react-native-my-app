@@ -4,8 +4,6 @@ import { Icon, SearchBar } from 'react-native-elements';
 import { TouchableOpacity, Alert, Modal, StyleSheet, Text, Pressable, View, Linking } from 'react-native'
 import HomeScreen from '../HomeScreen';
 import DetailScreen from '../DetailScreen';
-import { Button } from 'react-native';
-
 
 const HomeStack = createStackNavigator();
 
