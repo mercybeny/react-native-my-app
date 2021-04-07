@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { RefreshControl, View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { colors, ListItem, Avatar, Icon } from 'react-native-elements';
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -23,8 +26,24 @@ const stylesI = StyleSheet.create({
 
 
 const SettingsScreen = ({ navigation }) => {
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(500).then(() => setRefreshing(false));
+    }, []);
+
     return (
-        <ScrollView>
+        <ScrollView
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+        >
             <View style={[styles.container, {
 
                 flexDirection: "column"

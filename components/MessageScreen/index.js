@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, View, Text, SectionList, TouchableOpacity } from 'react-native';
+import { RefreshControl, FlatList, StyleSheet, View, Text, SectionList, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements'
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -25,9 +29,22 @@ const styles = StyleSheet.create({
 
 const MessagesScreen = ({ navigation }) => {
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(500).then(() => setRefreshing(false));
+    }, []);
+
     return (
         <View style={styles.container}>
             <SectionList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
 
                 sections={[
                     { title: 'A', data: ['Alan', 'Acivi', 'Alpha'] },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { RefreshControl, View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {
     LineChart,
@@ -7,6 +7,10 @@ import {
     StackedBarChart
 } from "react-native-chart-kit";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -63,6 +67,14 @@ const dataBarChart = {
 
 
 const ChartScreen = () => {
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(500).then(() => setRefreshing(false));
+    }, []);
+
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const showDatePicker = () => {
@@ -77,7 +89,15 @@ const ChartScreen = () => {
         alert("" + date);
     };
     return (
-        <ScrollView>
+        <ScrollView
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+        >
             <View style={[styles.container, {
                 flexDirection: "column"
             }]}>

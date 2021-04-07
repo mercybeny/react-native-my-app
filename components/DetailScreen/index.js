@@ -33,6 +33,7 @@ const DetailScreen = ({ route }) => {
                 <Text selectable>{key.content}</Text>
                 <Text> </Text>
                 <Text selectable>{key.content}</Text>
+                <Text>{key.type}</Text>
 
             </ScrollView>
         </View>
